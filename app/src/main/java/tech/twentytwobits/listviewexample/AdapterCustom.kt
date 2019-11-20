@@ -1,13 +1,31 @@
 package tech.twentytwobits.listviewexample
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
+import android.widget.TextView
 
 class AdapterCustom(var context: Context, var items: ArrayList<Fruta>): BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var view = convertView
+        val holder: ViewHolder
+
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.list_template, null)
+            holder = ViewHolder(view)
+            view.tag = holder
+        } else {
+            holder = view.tag as ViewHolder
+        }
+
+        val item = items.get(position) as Fruta
+        holder.nombre.text = item.nombre
+        holder.imagen.setImageResource(item.imagen)
+
+        return view!!
     }
 
     override fun getItem(position: Int): Any {
@@ -23,6 +41,12 @@ class AdapterCustom(var context: Context, var items: ArrayList<Fruta>): BaseAdap
     }
 
     private class ViewHolder(view: View) {
+        var nombre: TextView
+        var imagen: ImageView
 
+        init {
+            nombre = view.findViewById(R.id.nombre)
+            imagen = view.findViewById(R.id.imagen)
+        }
     }
 }
